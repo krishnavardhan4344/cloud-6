@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<section class="error-page card">
+  <p class="error-code">{{ status }}</p>
+  <h1>{{ title }}</h1>
+  <p class="muted">{{ message }}</p>
+  <p>
+    {% if g.user %}
+      <a class="btn btn-primary" href="{{ url_for('files.dashboard') }}">Back to my files</a>
+    {% else %}
+      <a class="btn btn-primary" href="{{ url_for('auth.index') }}">Go to home page</a>
+    {% endif %}
+  </p>
+</section>
+{% endblock %}

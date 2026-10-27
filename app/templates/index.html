@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Secure personal file storage{% endblock %}
+{% block content %}
+<section class="hero">
+  <p class="eyebrow">Cloud-based file storage</p>
+  <h1>Keep your files safe, private and always within reach.</h1>
+  <p class="lead">Upload documents, images and archives, see exactly how much space they use,
+    and download them from any device. Every account is isolated &mdash; nobody else can see your files.</p>
+  <div class="hero-actions">
+    <a class="btn btn-primary btn-lg" href="{{ url_for('auth.register') }}">Get started free</a>
+    <a class="btn btn-lg" href="{{ url_for('auth.login') }}">Sign in</a>
+  </div>
+</section>
+
+<section class="features" aria-label="Features">
+  <article class="card feature">
+    <h2>Private by design</h2>
+    <p>Each file is tied to its owner. Requests for another user's file are rejected on the server.</p>
+  </article>
+  <article class="card feature">
+    <h2>Upload &amp; download</h2>
+    <p>Drag and drop several files at once, watch the progress, and download with one click.</p>
+  </article>
+  <article class="card feature">
+    <h2>Know your space</h2>
+    <p>File sizes and a live storage meter show how much of your quota is in use.</p>
+  </article>
+  <article class="card feature">
+    <h2>Works everywhere</h2>
+    <p>A responsive layout adapts from phones to wide desktop screens, light or dark.</p>
+  </article>
+</section>
+{% endblock %}

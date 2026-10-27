@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}My files{% endblock %}
+{% block content %}
+<section id="dashboard" class="dashboard"
+         data-max-file-bytes="{{ max_file_bytes }}"
+         data-max-files="{{ max_files }}">
+
+  <div class="page-head">
+    <div>
+      <h1>My files</h1>
+      <p class="muted">Only you can see and download these files.</p>
+    </div>
+  </div>
+
+  <noscript><div class="form-errors">JavaScript is required to upload and manage files.</div></noscript>
+
+  <!-- Storage meter -->
+  <div class="card storage-card" aria-label="Storage usage">
+    <div class="storage-text">
+      <strong id="usage-used">0 B</strong> of <span id="usage-quota">0 B</span> used
+      <span class="muted">· <span id="usage-count">0</span> file(s)</span>
+    </div>
+    <div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="usage-meter">
+      <div class="meter-fill" id="usage-fill"></div>
+    </div>
+  </div>
+
+  <!-- Upload -->
+  <div class="card">
+    <label id="dropzone" class="dropzone" for="file-input" tabindex="0">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 16V4m0 0 4 4m-4-4L8 8"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/>
+      </svg>
+      <span class="dz-title">Drag &amp; drop files here, or <u>browse</u></span>
+      <span class="muted dz-hint">Up to {{ max_files }} files at a time · max {{ max_file_human }} per file</span>
+    </label>
+    <input id="file-input" class="sr-only" type="file" multiple>
+
+    <div id="upload-progress" class="upload-progress" hidden>
+      <div class="upload-progress-label"><span id="upload-label">Uploading…</span><span id="upload-percent">0%</span></div>
+      <div class="meter"><div class="meter-fill" id="upload-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- File list -->
+  <div class="card list-card">
+    <div class="list-toolbar">
+      <input id="search" class="search" type="search" placeholder="Search files…" aria-label="Search files" autocomplete="off">
+      <label class="sort-label">
+        <span class="sr-only">Sort by</span>
+        <select id="sort" aria-label="Sort files">
+          <option value="date-desc">Newest first</option>
+          <option value="date-asc">Oldest first</option>
+          <option value="name-asc">Name A–Z</option>
+          <option value="name-desc">Name Z–A</option>
+          <option value="size-desc">Largest first</option>
+          <option value="size-asc">Smallest first</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="table-wrap">
+      <table class="file-table" id="file-table">
+        <thead>
+          <tr><th scope="col">Name</th><th scope="col">Size</th><th scope="col">Uploaded</th><th scope="col" class="col-actions">Actions</th></tr>
+        </thead>
+        <tbody id="file-body"></tbody>
+      </table>
+    </div>
+
+    <div id="empty-state" class="empty-state" hidden>
+      <p class="empty-title">No files yet</p>
+      <p class="muted">Upload your first file using the box above.</p>
+    </div>
+    <div id="no-results" class="empty-state" hidden>
+      <p class="empty-title">No matching files</p>
+      <p class="muted">Try a different search.</p>
+    </div>
+  </div>
+
+  <script type="application/json" id="initial-data">{{ initial|tojson }}</script>
+
+  <!-- Delete confirmation -->
+  <dialog id="confirm-dialog" class="dialog">
+    <form method="dialog">
+      <h2>Delete file?</h2>
+      <p id="confirm-text" class="muted"></p>
+      <div class="dialog-actions">
+        <button class="btn" value="cancel">Cancel</button>
+        <button class="btn btn-danger" value="confirm" id="confirm-yes">Delete</button>
+      </div>
+    </form>
+  </dialog>
+</section>
+{% endblock %}

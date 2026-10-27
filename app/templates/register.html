@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Create account{% endblock %}
+{% block content %}
+<section class="auth-card card">
+  <h1>Create your account</h1>
+  <p class="muted">It takes less than a minute.</p>
+
+  {% if errors %}
+    <div class="form-errors" role="alert">
+      <ul>{% for e in errors %}<li>{{ e }}</li>{% endfor %}</ul>
+    </div>
+  {% endif %}
+
+  <form method="post" action="{{ url_for('auth.register') }}" novalidate data-validate="register">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <label class="field">
+      <span>Username</span>
+      <input type="text" name="username" value="{{ form.username }}" autocomplete="username"
+             minlength="3" maxlength="30" pattern="[A-Za-z0-9_]{3,30}" required autofocus>
+      <small>3&ndash;30 letters, numbers or underscores.</small>
+    </label>
+
+    <label class="field">
+      <span>Email</span>
+      <input type="email" name="email" value="{{ form.email }}" autocomplete="email" maxlength="254" required>
+    </label>
+
+    <label class="field">
+      <span>Password</span>
+      <div class="input-group">
+        <input type="password" id="password" name="password" autocomplete="new-password"
+               minlength="8" maxlength="128" required>
+        <button class="pw-toggle" type="button" data-toggle-password="password">Show</button>
+      </div>
+      <small>At least 8 characters, with a letter and a number.</small>
+    </label>
+
+    <label class="field">
+      <span>Confirm password</span>
+      <input type="password" id="confirm_password" name="confirm_password" autocomplete="new-password" required>
+    </label>
+
+    <button class="btn btn-primary btn-block" type="submit">Create account</button>
+  </form>
+
+  <p class="auth-switch">Already registered? <a href="{{ url_for('auth.login') }}">Sign in</a></p>
+</section>
+{% endblock %}
